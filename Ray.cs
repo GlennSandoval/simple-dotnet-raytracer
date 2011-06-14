@@ -7,6 +7,7 @@ namespace RayTracer {
         public Ray(Vector3 Origin, Vector3 Direction) {
             m_Origin = Origin;
             m_Direction = Direction;
+            m_Direction.Normalize();
         }
     }
 }

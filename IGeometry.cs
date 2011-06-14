@@ -5,7 +5,7 @@ namespace RayTracer {
 
         Vector3 GetSurfaceNormalAtPoint(Vector3 point);
 
-        IMaterial Mat { get; set; }
+        void GetColor(Vector3 point, ref int r, ref int g, ref int b);
 
     }
 }

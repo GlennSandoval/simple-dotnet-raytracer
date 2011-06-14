@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace RayTracer {
     class Raytracer {
@@ -10,53 +6,51 @@ namespace RayTracer {
 
         public Size size;
 
-        public void RayTrace(Graphics g) {
-            int centerX = size.Width / 2;
-            int centerY = size.Height / 2;
+        public Color BackColor;
 
-            Sphere sp1 = new Sphere(new Vector3(centerX + 200, centerY, 500), 100);
-            Sphere sp2 = new Sphere(new Vector3(centerX - 200, centerY, 500), 100);
-
-            Vector3 camera = new Vector3(centerX, centerY, -5000);
-            Vector3 light = new Vector3(centerX, centerY / 2, 400);
-
-            Bitmap bm = new Bitmap(1, 1);
+        public void RayTrace(Graphics graphic) {
             for (int j = 0; j < size.Height; j++) {
                 for (int i = 0; i < size.Width; i++) {
-                    Vector3 lookAt = new Vector3(i, j, 0) - camera;
+
+                    Vector3 lookAt = new Vector3(i, j, 0) - scene.camera.Origin;
                     lookAt.Normalize();
-                    Ray r = new Ray(camera, lookAt);
+                    Ray ray = new Ray(scene.camera.Origin, lookAt);
                     Vector3 intPoint = new Vector3();
-                    if (sp1.Intersects(r, ref intPoint)) {
-                        Vector3 normal = sp1.GetSurfaceNormalAtPoint(intPoint);
-                        Vector3 lightNormal = light - intPoint;
-                        lightNormal.Normalize();
-                        double derp = lightNormal.Dot(normal);
-                        if (derp > 0) {
-                            int red = (int)(255 * derp);
-                            Pen p = new Pen(Color.FromArgb(255, red, 0, 0));
-                            bm.SetPixel(0, 0, p.Color);
-                            g.DrawImageUnscaled(bm, i, j);
-                        } else {
-                            Pen p = new Pen(Color.FromArgb(255, 0, 0, 0));
-                            bm.SetPixel(0, 0, p.Color);
-                            g.DrawImageUnscaled(bm, i, j);
+
+                    bool hit = false;
+                    foreach (IGeometry geom in scene.geoms) {
+                        if (geom.Intersects(ray, ref intPoint)) {
+                            int accumR = 0;
+                            int accumG = 0;
+                            int accumB = 0;
+                            hit = true;
+                            Vector3 normal = geom.GetSurfaceNormalAtPoint(intPoint);                            
+                            foreach (Light lt in scene.lights) {
+                                Vector3 lightNormal = lt.location - intPoint;
+                                lightNormal.Normalize();
+                                double lambert = lightNormal.Dot(normal);
+                                if (lambert > 0) {
+                                    int r, g, b;
+                                    r = b = g = 0;
+                                    geom.GetColor(intPoint, ref r, ref g, ref b);
+                                    accumR += (int)(lt.color.R * r * lambert)/255;
+                                    accumG += (int)(lt.color.G * g * lambert)/255;
+                                    accumB += (int)(lt.color.B * b * lambert)/255;
+                                }
+                            }
+                            if (accumR > 255) { accumR = 255; }
+                            if (accumG > 255) { accumG = 255; }
+                            if (accumB > 255) { accumB = 255; }
+                            if (accumR < 15) { accumR = 15; }
+                            if (accumG < 15) { accumG = 15; }
+                            if (accumB < 15) { accumB = 15; }
+
+                            SolidBrush brush = new SolidBrush(Color.FromArgb(255, accumR, accumG, accumB));                            
+                            graphic.FillRectangle(brush, i, j, 1, 1);
                         }
-                    } else if (sp2.Intersects(r, ref intPoint)) {
-                        Vector3 normal = sp2.GetSurfaceNormalAtPoint(intPoint);
-                        Vector3 lightNormal = light - intPoint;
-                        lightNormal.Normalize();
-                        double derp = lightNormal.Dot(normal);
-                        if (derp > 0) {
-                            int red = (int)(255 * derp);
-                            Pen p = new Pen(Color.FromArgb(255, red, 0, 0));
-                            bm.SetPixel(0, 0, p.Color);
-                            g.DrawImageUnscaled(bm, i, j);
-                        } else {
-                            Pen p = new Pen(Color.FromArgb(255, 0, 0, 0));
-                            bm.SetPixel(0, 0, p.Color);
-                            g.DrawImageUnscaled(bm, i, j);
-                        }
+                    }
+                    if (!hit) {
+                        graphic.FillRectangle(new SolidBrush(BackColor), i, j, 1, 1);
                     }
                 }
             }

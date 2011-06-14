@@ -48,8 +48,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IGeometry.cs" />
-    <Compile Include="IMaterial.cs" />
     <Compile Include="InterSectionInfo.cs" />
+    <Compile Include="Light.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Raytracer.cs" />

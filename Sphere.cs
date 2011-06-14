@@ -18,12 +18,11 @@ namespace RayTracer {
             double distance = double.NaN;
 
             Vector3 originOffset = ray.m_Origin - m_Center;
-            ray.m_Direction.Normalize();
-            double a = ray.m_Direction.Dot();
+            // a = 1 since  ray.m_Direction.Dot() = 1                   
             double b = 2 * (ray.m_Direction.Dot(originOffset));
             double c = originOffset.Dot() - (Radius * Radius);
 
-            double discriminant = b * b - 4 * a * c;
+            double discriminant = b * b - 4 * c;
             if (discriminant < 0) { return false; }
 
             // compute q as described above
@@ -36,7 +35,7 @@ namespace RayTracer {
             }
 
             // compute t0 and t1
-            double t0 = q / a;
+            double t0 = q;
             double t1 = c / q;
 
             // make sure t0 is smaller than t1
@@ -64,19 +63,16 @@ namespace RayTracer {
             return true;
         }
 
-        public Vector3 GetSurfaceNormalAtPoint(Vector3 point) {            
+        public Vector3 GetSurfaceNormalAtPoint(Vector3 point) {
             Vector3 normal = point - m_Center;
             normal.Normalize();
             return normal;
         }
 
-        public IMaterial Mat {
-            get {
-                return null;
-            }
-            set {
-                return;
-            }
+        public void GetColor(Vector3 point, ref int r, ref int g, ref int b) {
+            r = 255;
+            g = 255;
+            b = 128;
         }
 
         #endregion

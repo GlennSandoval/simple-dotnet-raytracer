@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 
 namespace RayTracer {
     public partial class Form1 : Form {
@@ -20,48 +21,51 @@ namespace RayTracer {
             pictureBox1.Image = renderSurface;
         }
 
-        private void pictureBox1_Resize(object sender, EventArgs e) {
-            ResetPicture();
-        }
-
-        private void ResetPicture() {
-            if (pictureBox1.Size.Width == 0 || pictureBox1.Size.Height == 0) {
-                return;
-            }
-            return;
-            //Bitmap newRenderSurface = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
-            //using (Graphics g = Graphics.FromImage(newRenderSurface)) {
-            //    g.DrawImage(renderSurface, 0, 0, pictureBox1.Size.Width, pictureBox1.Size.Height);
-            //}
-            //renderSurface.Dispose();
-            //renderSurface = newRenderSurface;
-            //pictureBox1.Image = renderSurface;
-            //pictureBox1.Invalidate();
-        }
-
         private void btnGo_Click(object sender, EventArgs e) {
             renderSurface = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
             pictureBox1.Image = renderSurface;
             RayTrace();
-        }
-
-        private void RayTrace() {
-            ResetPicture();
+        }        
+        private void RayTrace() {             
             btnGo.Enabled = false;
             rt.size = renderSurface.Size;
 
             int centerX = pictureBox1.Width / 2;
             int centerY = pictureBox1.Height / 2;
 
-            Sphere sp1 = new Sphere(new Vector3(centerX + 200, centerY, 500), 100);
-            Sphere sp2 = new Sphere(new Vector3(centerX - 200, centerY, 500), 100);
+            Scene sc = new Scene();            
 
-            Vector3 camera = new Vector3(centerX, centerY, -5000);
-            Vector3 light = new Vector3(centerX, centerY / 2, 400);
+            Sphere sp1 = new Sphere(new Vector3(centerX + 300, centerY, 2000), 200);
+            Sphere sp2 = new Sphere(new Vector3(centerX - 300, centerY, 2000), 200);
+            sc.geoms.Add(sp1);
+            sc.geoms.Add(sp2);
+            
+            Camera cam = new Camera();
+            cam.Origin = new Vector3(centerX, centerY, -2500);
+            sc.camera = cam;
+
+            Light lt3 = new Light();
+            lt3.location = new Vector3(centerX + 300, centerY, 1000);
+            lt3.color = Color.Red;
+            sc.lights.Add(lt3);
+
+            //Light lt = new Light();
+            //lt.location = new Vector3(centerX, centerY, 1000);
+            //lt.color = Color.Green;
+            //sc.lights.Add(lt);
+
+            Light lt2 = new Light();
+            lt2.location = new Vector3(centerX - 300, centerY, 1000);
+            lt2.color = Color.Blue;
+            sc.lights.Add(lt2);
+
+            rt.scene = sc;
+            rt.BackColor = Color.Black;
 
             using (Graphics g = Graphics.FromImage(renderSurface)) {
                 rt.RayTrace(g);
             }
+
             pictureBox1.Invalidate();
             btnGo.Enabled = true;
         }
