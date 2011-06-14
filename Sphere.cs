@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace RayTracer {
     public class Sphere : IGeometry {
 
         public double Radius { get; set; }
-        Vector3 m_Center;
+        public Vector3 m_Center;
 
         public Sphere(Vector3 pos, double r) {
             Radius = r;
@@ -28,7 +29,7 @@ namespace RayTracer {
             // compute q as described above
             double distSqrt = Math.Sqrt(discriminant);
             double q;
-            if (b < 0) {
+            if (b > 0) {
                 q = (-b - distSqrt) / 2.0;
             } else {
                 q = (-b + distSqrt) / 2.0;
@@ -63,13 +64,13 @@ namespace RayTracer {
             return true;
         }
 
-        public Vector3 GetSurfaceNormalAtPoint(Vector3 point) {
+        public Vector3 GetSurfaceNormalAtPoint(Vector3 point) {            
             Vector3 normal = point - m_Center;
             normal.Normalize();
             return normal;
         }
 
-        public Material Mat {
+        public IMaterial Mat {
             get {
                 return null;
             }

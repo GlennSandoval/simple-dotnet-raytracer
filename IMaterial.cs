@@ -1,5 +1,6 @@
 ﻿
 namespace RayTracer {
-    public class Material {
+    public interface IMaterial {
     }
+
 }

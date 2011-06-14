@@ -40,6 +40,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -47,10 +48,14 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IGeometry.cs" />
-    <Compile Include="Material.cs" />
+    <Compile Include="IMaterial.cs" />
+    <Compile Include="InterSectionInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Ray.cs" />
+    <Compile Include="Raytracer.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="Sphere.cs" />
+    <Compile Include="Vector2.cs" />
     <Compile Include="Vector3.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
