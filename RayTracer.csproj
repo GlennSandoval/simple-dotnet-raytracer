@@ -50,6 +50,7 @@
     <Compile Include="IGeometry.cs" />
     <Compile Include="InterSectionInfo.cs" />
     <Compile Include="Light.cs" />
+    <Compile Include="Plane.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Raytracer.cs" />

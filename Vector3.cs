@@ -58,5 +58,9 @@ namespace RayTracer {
             return difference;
         }
 
+        public static double operator *(Vector3 left, Vector3 right) {
+           return left.Dot(right);
+        }
+
     }
 }

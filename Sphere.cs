@@ -17,9 +17,9 @@ namespace RayTracer {
 
             double distance = double.NaN;
 
-            Vector3 originOffset = ray.m_Origin - m_Center;
-            // a = 1 since  ray.m_Direction.Dot() = 1                   
-            double b = 2 * (ray.m_Direction.Dot(originOffset));
+            Vector3 originOffset = ray.E - m_Center;
+            // a = 1 since  ray.D.Dot() = 1                          
+            double b = 2 * (ray.D.Dot(originOffset));
             double c = originOffset.Dot() - (Radius * Radius);
 
             double discriminant = b * b - 4 * c;
@@ -59,7 +59,7 @@ namespace RayTracer {
                 // else the intersection point is at t0
                 distance = t0;
             }
-            intPoint = ray.m_Origin + ray.m_Direction * distance;
+            intPoint = ray.E + ray.D * distance;
             return true;
         }
 
@@ -72,7 +72,7 @@ namespace RayTracer {
         public void GetColor(Vector3 point, ref int r, ref int g, ref int b) {
             r = 255;
             g = 255;
-            b = 128;
+            b = 255;
         }
 
         #endregion

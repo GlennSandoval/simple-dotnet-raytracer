@@ -25,39 +25,54 @@ namespace RayTracer {
             renderSurface = new Bitmap(pictureBox1.Size.Width, pictureBox1.Size.Height);
             pictureBox1.Image = renderSurface;
             RayTrace();
-        }        
-        private void RayTrace() {             
+        }
+        
+        private void RayTrace() {
             btnGo.Enabled = false;
+            pictureBox1.Image = null;
+            pictureBox1.Update();
+
             rt.size = renderSurface.Size;
 
             int centerX = pictureBox1.Width / 2;
             int centerY = pictureBox1.Height / 2;
 
-            Scene sc = new Scene();            
+            Scene sc = new Scene();
 
             Sphere sp1 = new Sphere(new Vector3(centerX + 300, centerY, 2000), 200);
             Sphere sp2 = new Sphere(new Vector3(centerX - 300, centerY, 2000), 200);
-            sc.geoms.Add(sp1);
-            sc.geoms.Add(sp2);
-            
+            Sphere sp3 = new Sphere(new Vector3(centerX, centerY, 3500), 500);
+
+
+            Vector3 plnm = new Vector3(0, 0, -1);
+            Vector3 point = new Vector3(0, 0, 4000);
+            plnm.Normalize();
+            Plane pl = new Plane(plnm, point);
+
             Camera cam = new Camera();
             cam.Origin = new Vector3(centerX, centerY, -2500);
             sc.camera = cam;
 
-            Light lt3 = new Light();
-            lt3.location = new Vector3(centerX + 300, centerY, 1000);
-            lt3.color = Color.Red;
-            sc.lights.Add(lt3);
+            Light ltRed = new Light();
+            ltRed.location = new Vector3(centerX + 300, centerY - 200, 1000);
+            ltRed.color = Color.Red;
 
-            //Light lt = new Light();
-            //lt.location = new Vector3(centerX, centerY, 1000);
-            //lt.color = Color.Green;
-            //sc.lights.Add(lt);
+            Light ltGreen = new Light();
+            ltGreen.location = new Vector3(centerX, centerY + 200, 2000);
+            ltGreen.color = Color.FromArgb(0, 255, 0);
 
-            Light lt2 = new Light();
-            lt2.location = new Vector3(centerX - 300, centerY, 1000);
-            lt2.color = Color.Blue;
-            sc.lights.Add(lt2);
+            Light ltBlue = new Light();
+            ltBlue.location = new Vector3(centerX - 300, centerY - 200, 1000);
+            ltBlue.color = Color.Blue;            
+
+            sc.geoms.Add(sp1);
+            sc.geoms.Add(sp2);
+            sc.geoms.Add(sp3);
+            sc.geoms.Add(pl);
+
+            sc.lights.Add(ltBlue);
+            sc.lights.Add(ltGreen);
+            sc.lights.Add(ltRed);
 
             rt.scene = sc;
             rt.BackColor = Color.Black;
@@ -66,7 +81,8 @@ namespace RayTracer {
                 rt.RayTrace(g);
             }
 
-            pictureBox1.Invalidate();
+            pictureBox1.Image = renderSurface;
+            pictureBox1.Update();
             btnGo.Enabled = true;
         }
 

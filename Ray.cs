@@ -1,13 +1,13 @@
 ﻿
 namespace RayTracer {
     public class Ray {
-        public Vector3 m_Origin;
-        public Vector3 m_Direction;
+        public Vector3 E;
+        public Vector3 D;
  
-        public Ray(Vector3 Origin, Vector3 Direction) {
-            m_Origin = Origin;
-            m_Direction = Direction;
-            m_Direction.Normalize();
+        public Ray(Vector3 e, Vector3 d) {
+            E = e;
+            D = d;
+            D.Normalize();
         }
     }
 }
