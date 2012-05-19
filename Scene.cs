@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RayTracer {
-    class Scene {
 
+    internal class Scene {
         public Camera camera;
 
         public List<IGeometry> geoms = new List<IGeometry>();

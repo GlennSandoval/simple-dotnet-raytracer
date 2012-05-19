@@ -21,3 +21,4 @@
 /obj/x86/Release/RayTracer.csproj.FileListAbsolute.txt
 /obj/x86/Release/RayTracer.exe
 /obj/x86/Release/RayTracer.pdb
+*.docstates
