@@ -47,15 +47,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Geometry.cs" />
+    <Compile Include="Geometry\Geometry.cs" />
     <Compile Include="IMaterial.cs" />
     <Compile Include="Light.cs" />
-    <Compile Include="Plane.cs" />
+    <Compile Include="Geometry\Plane.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Raytracer.cs" />
     <Compile Include="Scene.cs" />
-    <Compile Include="Sphere.cs" />
+    <Compile Include="Geometry\Sphere.cs" />
     <Compile Include="Vector3.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
