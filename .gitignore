@@ -1,4 +1,6 @@
-
+*.suo
+/CodeAnalyst/*
+/obj/*
 /bin/Debug/RayTracer.vshost.exe
 /bin/Debug/RayTracer.vshost.exe.manifest
 /bin/Debug/RayTracer.exe
