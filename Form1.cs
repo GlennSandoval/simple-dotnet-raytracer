@@ -25,7 +25,7 @@ namespace RayTracer {
 
             renderSurface = new Bitmap( pictureBox1.Size.Width, pictureBox1.Size.Height );
 
-            rt.size = renderSurface.Size;
+            rt.Size = renderSurface.Size;
 
             int centerX = pictureBox1.Width / 2;
             int centerY = pictureBox1.Height / 2;
@@ -110,7 +110,7 @@ namespace RayTracer {
             //sc.lights.Add(ltWhite);
             //sc.lights.Add(ltWhite2);
 
-            rt.scene = sc;
+            rt.Scene = sc;
             rt.BackColor = Color.Black;
 
             rt.RayTrace( renderSurface, () => {

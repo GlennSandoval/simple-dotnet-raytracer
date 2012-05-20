@@ -49,9 +49,7 @@
     </Compile>
     <Compile Include="IGeometry.cs" />
     <Compile Include="IMaterial.cs" />
-    <Compile Include="InterSectionInfo.cs" />
     <Compile Include="Light.cs" />
-    <Compile Include="Normal.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Ray.cs" />
