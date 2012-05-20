@@ -1,6 +1,6 @@
 ﻿namespace RayTracer {
 
-    internal class Camera {
+    public class Camera {
 
         public Vector3 Location {
             get;

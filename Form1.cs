@@ -30,32 +30,32 @@ namespace RayTracer {
             Scene sc = new Scene();
 
             Sphere sp1 = new Sphere( new Vector3( centerX + 300, centerY - 200, 2000 ), 200 );
-            sp1.material = new SolidColor() {
-                color = Color.Red,
+            sp1.Material = new SolidColor() {
+                Color = Color.Red,
                 Phong = .5
             };
 
             Sphere sp2 = new Sphere( new Vector3( centerX - 300, centerY + 200, 1000 ), 200 );
-            sp2.material = new SolidColor() {
-                color = Color.Blue,
+            sp2.Material = new SolidColor() {
+                Color = Color.Blue,
                 Phong = .5
             };
 
             Sphere sp3 = new Sphere( new Vector3( centerX, centerY, 3000 ), 500 );
-            sp3.material = new SolidColor() {
-                color = Color.Green,
+            sp3.Material = new SolidColor() {
+                Color = Color.Green,
                 Phong = .25
             };
 
             Sphere sp4 = new Sphere( new Vector3( centerX + 200, centerY, -6000 ), 750 );
-            sp4.material = new SolidColor() {
-                color = Color.Yellow,
+            sp4.Material = new SolidColor() {
+                Color = Color.Yellow,
                 Phong = .25
             };
 
             Square sq = new Square( new Vector3( 0, 0, -1 ), new Vector3( centerX - 75, centerY - 200, 1500 ), 100, 100 );
-            sq.material = new SolidColor() {
-                color = Color.Green,
+            sq.Material = new SolidColor() {
+                Color = Color.Green,
                 Phong = .01
             };
 
@@ -71,36 +71,36 @@ namespace RayTracer {
 
             Camera cam = new Camera();
             cam.Location = new Vector3( centerX, centerY, -2500 );
-            sc.camera = cam;
+            sc.Camera = cam;
 
             Light ltRed = new Light();
-            ltRed.location = new Vector3( centerX, centerY - 200, 1000 );
-            ltRed.color = Color.Red;
+            ltRed.Location = new Vector3( centerX, centerY - 200, 1000 );
+            ltRed.Color = Color.Red;
 
             Light ltGreen = new Light();
-            ltGreen.location = new Vector3( centerX, centerY + 200, 2000 );
-            ltGreen.color = Color.Green;
+            ltGreen.Location = new Vector3( centerX, centerY + 200, 2000 );
+            ltGreen.Color = Color.Green;
 
             Light ltWhite = new Light();
-            ltWhite.location = new Vector3( centerX, centerY - 400, 1000 );
-            ltWhite.color = Color.White;
+            ltWhite.Location = new Vector3( centerX, centerY - 400, 1000 );
+            ltWhite.Color = Color.White;
 
             Light ltBlue = new Light();
-            ltBlue.location = new Vector3( centerX, centerY - 200, 1000 );
-            ltBlue.color = Color.Blue;
+            ltBlue.Location = new Vector3( centerX, centerY - 200, 1000 );
+            ltBlue.Color = Color.Blue;
 
-            sc.geoms.Add( sp1 );
-            sc.geoms.Add( sp2 );
-            sc.geoms.Add( sp3 );
-            sc.geoms.Add( sp4 );
-            sc.geoms.Add( pl );
-            sc.geoms.Add( pl2 );
-            sc.geoms.Add( sq );
+            sc.Geoms.Add( sp1 );
+            sc.Geoms.Add( sp2 );
+            sc.Geoms.Add( sp3 );
+            sc.Geoms.Add( sp4 );
+            sc.Geoms.Add( pl );
+            sc.Geoms.Add( pl2 );
+            sc.Geoms.Add( sq );
 
-            sc.lights.Add( ltBlue );
-            sc.lights.Add( ltGreen );
-            sc.lights.Add( ltRed );
-            sc.lights.Add( ltWhite );
+            sc.Lights.Add( ltBlue );
+            sc.Lights.Add( ltGreen );
+            sc.Lights.Add( ltRed );
+            sc.Lights.Add( ltWhite );
 
             rt.Scene = sc;
             rt.BackColor = Color.Black;

@@ -105,7 +105,7 @@ namespace RayTracer {
 
         private ColorAccumulator CalculateLighting( HitInfo info, int count ) {
             ColorAccumulator ca = new ColorAccumulator();
-            foreach( Light lt in m_Scene.lights ) {
+            foreach( Light lt in m_Scene.Lights ) {
                 GetColor( info, lt, ca, count );
             }
             return ca;
@@ -153,9 +153,9 @@ namespace RayTracer {
             Vector3 intPoint = new Vector3( double.MaxValue, double.MaxValue, double.MaxValue );
             HitInfo info = new HitInfo( null, intPoint, ray );
             double dist = double.MaxValue;
-            foreach( IGeometry geom in m_Scene.geoms ) {
+            foreach( IGeometry geom in m_Scene.Geoms ) {
                 if( geom != originator && geom.Intersects( ray, ref intPoint ) ) {
-                    double distToObj = ray.E.DistanceTo( intPoint );
+                    double distToObj = ray.Source.DistanceTo( intPoint );
                     if( distToObj < dist ) {
                         info.hitPoint = intPoint;
                         dist = distToObj;
@@ -170,13 +170,13 @@ namespace RayTracer {
         }
 
         private Ray GetCameraRay( int x, int y ) {
-            Vector3 lookAt = new Vector3( x, y, 0 ) - m_Scene.camera.Location;
+            Vector3 lookAt = new Vector3( x, y, 0 ) - m_Scene.Camera.Location;
             lookAt.Normalize();
-            return new Ray( m_Scene.camera.Location, lookAt );
+            return new Ray( m_Scene.Camera.Location, lookAt );
         }
 
         private void GetColor( HitInfo info, Light lt, ColorAccumulator ca, int count ) {
-            Vector3 lightNormal = info.hitPoint - lt.location;
+            Vector3 lightNormal = info.hitPoint - lt.Location;
             lightNormal.Normalize();
 
             if( InShadow( info, lt, lightNormal ) ) {
@@ -193,13 +193,13 @@ namespace RayTracer {
                 int b2 = 0;
 
                 info.hitObj.GetColor( info.hitPoint, ref r, ref g, ref b );
-                if( info.hitObj.material != null && info.hitObj.material is SolidColor ) {
-                    double phongTerm = Math.Pow( lambert, 20 ) * ( info.hitObj.material as SolidColor ).Phong * 2;
-                    r2 = (int)( lt.color.R * phongTerm );
-                    g2 = (int)( lt.color.G * phongTerm );
-                    b2 = (int)( lt.color.B * phongTerm );
-                    double reflet = 2.0f * ( info.normal * info.ray.D );
-                    Vector3 dir = info.ray.D - info.normal * reflet;
+                if( info.hitObj.Material != null && info.hitObj.Material is SolidColor ) {
+                    double phongTerm = Math.Pow( lambert, 20 ) * ( info.hitObj.Material as SolidColor ).Phong * 2;
+                    r2 = (int)( lt.Color.R * phongTerm );
+                    g2 = (int)( lt.Color.G * phongTerm );
+                    b2 = (int)( lt.Color.B * phongTerm );
+                    double reflet = 2.0f * ( info.normal * info.ray.Direction );
+                    Vector3 dir = info.ray.Direction - info.normal * reflet;
                     Ray reflect = new Ray( info.hitPoint + dir, dir );
                     ColorAccumulator rca = CastRay( reflect, ++count );
                     if( rca != null ) {
@@ -208,16 +208,16 @@ namespace RayTracer {
                         ca.accumB = ca.accumB + rca.accumB;
                     }
                 }
-                ca.accumR += (int)( ( lt.color.R * r * -lambert ) / 255 ) + r2;
-                ca.accumG += (int)( ( lt.color.G * g * -lambert ) / 255 ) + g2;
-                ca.accumB += (int)( ( lt.color.B * b * -lambert ) / 255 ) + b2;
+                ca.accumR += (int)( ( lt.Color.R * r * -lambert ) / 255 ) + r2;
+                ca.accumG += (int)( ( lt.Color.G * g * -lambert ) / 255 ) + g2;
+                ca.accumB += (int)( ( lt.Color.B * b * -lambert ) / 255 ) + b2;
             }
         }
 
         private bool InShadow( HitInfo info, Light lt, Vector3 lightNormal ) {
-            Ray shadowRay = new Ray( lt.location, lightNormal );
+            Ray shadowRay = new Ray( lt.Location, lightNormal );
             HitInfo shadinfo = FindHitObject( shadowRay, info.hitObj, HitMode.Closest );
-            if( shadinfo.hitObj != null && lt.location.DistanceTo( info.hitPoint ) > lt.location.DistanceTo( shadinfo.hitPoint ) ) {
+            if( shadinfo.hitObj != null && lt.Location.DistanceTo( info.hitPoint ) > lt.Location.DistanceTo( shadinfo.hitPoint ) ) {
                 return true;
             }
             return false;

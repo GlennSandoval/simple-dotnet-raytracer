@@ -4,26 +4,54 @@ namespace RayTracer {
 
     public class Sphere : IGeometry {
 
-        public double Radius {
-            get;
-            set;
-        }
-
-        public Vector3 m_Center;
+        private Vector3 m_Center;
 
         public Sphere( Vector3 pos, double r ) {
             Radius = r;
             m_Center = pos;
         }
 
-        #region IGeometry Members
+        public Vector3 Center {
+            get {
+                return m_Center;
+            }
+            set {
+                m_Center = value;
+            }
+        }
+
+        public IMaterial Material {
+            get;
+            set;
+        }
+
+        public double Radius {
+            get;
+            set;
+        }
+
+        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
+            if( Material != null ) {
+                Material.GetColor( point, ref r, ref g, ref b );
+            } else {
+                r = 255;
+                g = 255;
+                b = 255;
+            }
+        }
+
+        public Vector3 GetSurfaceNormalAtPoint( Vector3 point ) {
+            Vector3 normal = point - m_Center;
+            normal.Normalize();
+            return normal;
+        }
 
         public bool Intersects( Ray ray, ref Vector3 intPoint ) {
             double distance = double.NaN;
 
-            Vector3 originOffset = ray.E - m_Center;
+            Vector3 originOffset = ray.Source - m_Center;
             // a = 1 since  ray.D.Dot() = 1
-            double b = 2.0 * ( ray.D.Dot( originOffset ) );
+            double b = 2.0 * ( ray.Direction.Dot( originOffset ) );
             double c = originOffset.Dot() - ( Radius * Radius );
 
             double discriminant = b * b - 4.0 * c;
@@ -65,31 +93,10 @@ namespace RayTracer {
                 // else the intersection point is at t0
                 distance = t0;
             }
-            intPoint = ray.E + ray.D * distance;
+            intPoint = ray.Source + ray.Direction * distance;
             return true;
         }
-
-        public Vector3 GetSurfaceNormalAtPoint( Vector3 point ) {
-            Vector3 normal = point - m_Center;
-            normal.Normalize();
-            return normal;
-        }
-
-        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
-            if( material != null ) {
-                material.GetColor( point, ref r, ref g, ref b );
-            } else {
-                r = 255;
-                g = 255;
-                b = 255;
-            }
-        }
-
-        public IMaterial material {
-            get;
-            set;
-        }
-
+        #region IGeometry Members
         #endregion IGeometry Members
     }
 }

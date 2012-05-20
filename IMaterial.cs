@@ -8,17 +8,15 @@ namespace RayTracer {
     }
 
     public class SolidColor : IMaterial {
+        public Color Color;
         public double Phong = 0;
-        public Color color;
-
-        #region IMaterial Members
 
         public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
-            r = color.R;
-            g = color.G;
-            b = color.B;
+            r = Color.R;
+            g = Color.G;
+            b = Color.B;
         }
-
+        #region IMaterial Members
         #endregion IMaterial Members
     }
 }
