@@ -7,7 +7,7 @@ namespace RayTracer {
 
     internal class Raytracer {
         private Color m_BackColor;
-        private Action m_Callback;
+        private Action m_UpdateCallback;
         private object m_CallbackLock = new object();
         private Graphics m_Graphic;
         private int m_ProcessorCount;
@@ -56,18 +56,51 @@ namespace RayTracer {
             }
         }
 
-        public void RayTrace( Image image ) {
-            RayTrace( image, null, null );
+        /// <summary>
+        /// Raytrace the scene onto the given image.
+        /// </summary>
+        /// <param name="image">Image that will be rendered to.</param>
+        public void Raytrace( Image image ) {
+            Raytrace( image, null, null );
         }
 
-        public void RayTrace( Image image, Action onUpdate, Action onFinished ) {
+        /// <summary>
+        /// Raytrace the scene onto the given image.
+        /// </summary>
+        /// <param name="image">Image that will be rendered to.</param>
+        /// <param name="onUpdate">Called after each row is rendered.</param>
+        /// <param name="onFinished">Called when rendering is complete.</param>
+        public void Raytrace( Image image, Action onUpdate, Action onFinished ) {
             m_Size = new Size( image.Width, image.Height );
-            m_Callback = onUpdate;
+            m_UpdateCallback = onUpdate;
             m_Graphic = Graphics.FromImage( image );
 
             new Thread( () => {
-                Go( onFinished );
+                Raytrace( onFinished );
             } ).Start();
+        }
+
+        private void Raytrace( Action onFinished ) {
+            double segmentsize = Math.Ceiling( m_Size.Height / (double)m_ProcessorCount );
+            List<Thread> threads = new List<Thread>();
+            for( int i = 0; i < m_ProcessorCount; i++ ) {
+                int start = 0 + (int)( i * segmentsize );
+                int stop = Math.Min( (int)segmentsize + (int)( i * segmentsize ), m_Size.Height );
+
+                Thread t = new Thread( () => {
+                    RenderRows( start, stop );
+                } );
+                t.Start();
+                threads.Add( t );
+            }
+
+            foreach( Thread t in threads ) {
+                t.Join();
+            }
+
+            if( onFinished != null && !this.m_Stop ) {
+                onFinished.Invoke();
+            }
         }
 
         private ColorAccumulator CalculateLighting( HitInfo info, int count ) {
@@ -181,33 +214,6 @@ namespace RayTracer {
             }
         }
 
-        private void Go( Action onFinished ) {
-            double segmentsize = Math.Ceiling( m_Size.Height / (double)m_ProcessorCount );
-            List<Thread> threads = new List<Thread>();
-            for( int i = 0; i < m_ProcessorCount; i++ ) {
-                int start = 0 + (int)( i * segmentsize );
-                int stop = Math.Min( (int)segmentsize + (int)( i * segmentsize ), m_Size.Height );
-
-                Thread t = new Thread( () => {
-                    RenderRows( start, stop );
-                } );
-                t.Start();
-                threads.Add( t );
-            }
-
-            foreach( Thread t in threads ) {
-                t.Join();
-            }
-
-            if( onFinished != null && !this.m_Stop ) {
-                try {
-                    onFinished();
-                } catch {
-                    //carry on
-                }
-            }
-        }
-
         private bool InShadow( HitInfo info, Light lt, Vector3 lightNormal ) {
             Ray shadowRay = new Ray( lt.location, lightNormal );
             HitInfo shadinfo = FindHitObject( shadowRay, info.hitObj, HitMode.Closest );
@@ -217,7 +223,7 @@ namespace RayTracer {
             return false;
         }
 
-        private void RenderColumns( int row ) {
+        private void RenderCells( int row ) {
             if( this.m_Stop ) {
                 return;
             }
@@ -225,11 +231,11 @@ namespace RayTracer {
                 CastCameraRay( i, row );
             }
 
-            if( m_Callback != null ) {
+            if( m_UpdateCallback != null ) {
                 try {
                     lock( m_CallbackLock ) {
                         if( !this.m_Stop ) {
-                            m_Callback();
+                            m_UpdateCallback.Invoke();
                         }
                     }
                 } catch {
@@ -240,7 +246,7 @@ namespace RayTracer {
 
         private void RenderRows( int start, int stop ) {
             for( int j = start; j < stop; j++ ) {
-                RenderColumns( j );
+                RenderCells( j );
             }
         }
     }

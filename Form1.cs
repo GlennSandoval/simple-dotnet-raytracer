@@ -7,8 +7,6 @@ namespace RayTracer {
     public partial class Form1 : Form {
         Raytracer rt;
 
-        Bitmap renderSurface;
-
         public Form1() {
             InitializeComponent();
             rt = new Raytracer();
@@ -20,12 +18,11 @@ namespace RayTracer {
 
         private void RayTrace() {
             btnGo.Enabled = false;
-            pictureBox1.Image = null;
+
+            pictureBox1.Image = new Bitmap( pictureBox1.Size.Width, pictureBox1.Size.Height );
             pictureBox1.Update();
 
-            renderSurface = new Bitmap( pictureBox1.Size.Width, pictureBox1.Size.Height );
-
-            rt.Size = renderSurface.Size;
+            rt.Size = pictureBox1.Image.Size;
 
             int centerX = pictureBox1.Width / 2;
             int centerY = pictureBox1.Height / 2;
@@ -88,10 +85,6 @@ namespace RayTracer {
             ltWhite.location = new Vector3( centerX, centerY - 400, 1000 );
             ltWhite.color = Color.White;
 
-            Light ltWhite2 = new Light();
-            ltWhite2.location = new Vector3( centerX, -1000, -10000 );
-            ltWhite2.color = Color.Gray;
-
             Light ltBlue = new Light();
             ltBlue.location = new Vector3( centerX, centerY - 200, 1000 );
             ltBlue.color = Color.Blue;
@@ -107,22 +100,15 @@ namespace RayTracer {
             sc.lights.Add( ltBlue );
             sc.lights.Add( ltGreen );
             sc.lights.Add( ltRed );
-            //sc.lights.Add(ltWhite);
-            //sc.lights.Add(ltWhite2);
+            sc.lights.Add( ltWhite );
 
             rt.Scene = sc;
             rt.BackColor = Color.Black;
 
-            rt.RayTrace( renderSurface, () => {
-                if( this.InvokeRequired ) {
-                    Invoke( new Action( () => {
-                        pictureBox1.Image = renderSurface;
-                        pictureBox1.Update();
-                    } ) );
-                } else {
-                    pictureBox1.Image = renderSurface;
-                    pictureBox1.Update();
-                }
+            rt.Raytrace( pictureBox1.Image, () => {
+                Invoke( new Action( () => {
+                    pictureBox1.Refresh();
+                } ) );
             }, () => {
                 Invoke( new Action( () => {
                     btnGo.Enabled = true;
