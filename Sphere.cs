@@ -2,25 +2,14 @@
 
 namespace RayTracer {
 
-    public class Sphere : IGeometry {
-
-        private Vector3 m_Center;
+    public class Sphere : Geometry {
 
         public Sphere( Vector3 pos, double r ) {
             Radius = r;
-            m_Center = pos;
+            Center = pos;
         }
 
         public Vector3 Center {
-            get {
-                return m_Center;
-            }
-            set {
-                m_Center = value;
-            }
-        }
-
-        public IMaterial Material {
             get;
             set;
         }
@@ -30,26 +19,16 @@ namespace RayTracer {
             set;
         }
 
-        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
-            if( Material != null ) {
-                Material.GetColor( point, ref r, ref g, ref b );
-            } else {
-                r = 255;
-                g = 255;
-                b = 255;
-            }
-        }
-
-        public Vector3 GetSurfaceNormalAtPoint( Vector3 point ) {
-            Vector3 normal = point - m_Center;
+        override public Vector3 GetSurfaceNormalAtPoint( Vector3 point ) {
+            Vector3 normal = point - Center;
             normal.Normalize();
             return normal;
         }
 
-        public bool Intersects( Ray ray, ref Vector3 intPoint ) {
+        override public bool Intersects( Ray ray, ref Vector3 intPoint ) {
             double distance = double.NaN;
 
-            Vector3 originOffset = ray.Source - m_Center;
+            Vector3 originOffset = ray.Source - Center;
             // a = 1 since  ray.D.Dot() = 1
             double b = 2.0 * ( ray.Direction.Dot( originOffset ) );
             double c = originOffset.Dot() - ( Radius * Radius );
@@ -96,7 +75,7 @@ namespace RayTracer {
             intPoint = ray.Source + ray.Direction * distance;
             return true;
         }
-        #region IGeometry Members
-        #endregion IGeometry Members
+        #region Geometry Members
+        #endregion Geometry Members
     }
 }

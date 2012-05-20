@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace RayTracer {
 
-    internal class Plane : IGeometry {
+    internal class Plane : Geometry {
         private Vector3 m_Normal;
         private Vector3 m_Point;
 
@@ -11,11 +11,7 @@ namespace RayTracer {
             m_Normal = n;
             m_Point = q;
             m_Normal.Normalize();
-        }
-
-        public IMaterial Material {
-            get;
-            set;
+            Material = new SolidColor( 64, 64, 64 );
         }
 
         public Vector3 Normal {
@@ -36,17 +32,11 @@ namespace RayTracer {
             }
         }
 
-        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
-            r = 64;
-            g = 64;
-            b = 64;
-        }
-
-        public Vector3 GetSurfaceNormalAtPoint( Vector3 point ) {
+        override public Vector3 GetSurfaceNormalAtPoint( Vector3 point ) {
             return m_Normal;
         }
 
-        public bool Intersects( Ray ray, ref Vector3 intPoint ) {
+        override public bool Intersects( Ray ray, ref Vector3 intPoint ) {
             Vector3 E = ray.Source;
             Vector3 D = ray.Direction;
             Vector3 NegN = -m_Normal;
@@ -58,57 +48,30 @@ namespace RayTracer {
                 }
             }
 
-            //if (NegN * D != 0) {
-            //    double t = (NegN * (Q - E)) / (NegN * D);
-            //    if (t >= 0) {
-            //        intPoint = E + (D * t);
-            //        return true;
-            //    }
-            //}
-
             return false;
         }
-        #region IGeometry Members
-        #endregion IGeometry Members
+        #region Geometry Members
+        #endregion Geometry Members
     }
 
-    internal class Square : IGeometry {
-        public Vector3 N;
-        public Vector3 Q;
+    internal class Square : Plane {
         public Size size;
 
-        public Square( Vector3 n, Vector3 q, int width, int height ) {
-            N = n;
-            Q = q;
+        public Square( Vector3 n, Vector3 q, int width, int height )
+            : base( n, q ) {
             size = new Size( width, height );
-
-            N.Normalize();
+            Material = new SolidColor( 64, 64, 128 );
         }
 
-        public IMaterial Material {
-            get;
-            set;
-        }
-
-        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
-            r = 64;
-            g = 64;
-            b = 128;
-        }
-
-        public Vector3 GetSurfaceNormalAtPoint( Vector3 point ) {
-            return N;
-        }
-
-        public bool Intersects( Ray ray, ref Vector3 intPoint ) {
+        public override bool Intersects( Ray ray, ref Vector3 intPoint ) {
             Vector3 E = ray.Source;
             Vector3 D = ray.Direction;
 
-            if( N * D != 0 ) {
-                double t = ( N * ( Q - E ) ) / ( N * D );
+            if( Normal * D != 0 ) {
+                double t = ( Normal * ( Point - E ) ) / ( Normal * D );
                 if( t >= 0 ) {
                     intPoint = E + ( D * t );
-                    if( Math.Abs( intPoint.x - Q.x ) < size.Width && Math.Abs( intPoint.y - Q.y ) < size.Height ) {
+                    if( Math.Abs( intPoint.x - Point.x ) < size.Width && Math.Abs( intPoint.y - Point.y ) < size.Height ) {
                         return true;
                     }
                 }
@@ -116,7 +79,6 @@ namespace RayTracer {
 
             return false;
         }
-        #region IGeometry Members
-        #endregion IGeometry Members
+
     }
 }

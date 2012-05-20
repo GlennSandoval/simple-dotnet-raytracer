@@ -47,7 +47,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="IGeometry.cs" />
+    <Compile Include="Geometry.cs" />
     <Compile Include="IMaterial.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="Plane.cs" />

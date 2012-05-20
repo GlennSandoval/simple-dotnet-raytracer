@@ -3,20 +3,29 @@
 namespace RayTracer {
 
     public interface IMaterial {
-
         void GetColor( Vector3 point, ref int r, ref int g, ref int b );
     }
 
     public class SolidColor : IMaterial {
-        public Color Color;
+        int r, g, b;
         public double Phong = 0;
 
-        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
-            r = Color.R;
-            g = Color.G;
-            b = Color.B;
+        public static SolidColor Default = new SolidColor( 255, 255, 255 );
+
+        public SolidColor( int r, int g, int b ) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
         }
+
         #region IMaterial Members
+
+        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
+            r = this.r;
+            g = this.g;
+            b = this.b;
+        }
+
         #endregion IMaterial Members
     }
 }

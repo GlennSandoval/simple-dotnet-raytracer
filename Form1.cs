@@ -30,32 +30,27 @@ namespace RayTracer {
             Scene sc = new Scene();
 
             Sphere sp1 = new Sphere( new Vector3( centerX + 300, centerY - 200, 2000 ), 200 );
-            sp1.Material = new SolidColor() {
-                Color = Color.Red,
+            sp1.Material = new SolidColor( 255, 0, 0 ) {
                 Phong = .5
             };
 
             Sphere sp2 = new Sphere( new Vector3( centerX - 300, centerY + 200, 1000 ), 200 );
-            sp2.Material = new SolidColor() {
-                Color = Color.Blue,
+            sp2.Material = new SolidColor( 0, 0, 255 ) {
                 Phong = .5
             };
 
             Sphere sp3 = new Sphere( new Vector3( centerX, centerY, 3000 ), 500 );
-            sp3.Material = new SolidColor() {
-                Color = Color.Green,
+            sp3.Material = new SolidColor( 0, 255, 0 ) {
                 Phong = .25
             };
 
             Sphere sp4 = new Sphere( new Vector3( centerX + 200, centerY, -6000 ), 750 );
-            sp4.Material = new SolidColor() {
-                Color = Color.Yellow,
+            sp4.Material = new SolidColor( 255, 255, 0 ) {
                 Phong = .25
             };
 
             Square sq = new Square( new Vector3( 0, 0, -1 ), new Vector3( centerX - 75, centerY - 200, 1500 ), 100, 100 );
-            sq.Material = new SolidColor() {
-                Color = Color.Green,
+            sq.Material = new SolidColor( 0, 255, 0 ) {
                 Phong = .01
             };
 

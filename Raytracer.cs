@@ -149,11 +149,11 @@ namespace RayTracer {
             return FindHitObject( ray, null, HitMode.Closest );
         }
 
-        private HitInfo FindHitObject( Ray ray, IGeometry originator, HitMode mode ) {
+        private HitInfo FindHitObject( Ray ray, Geometry originator, HitMode mode ) {
             Vector3 intPoint = new Vector3( double.MaxValue, double.MaxValue, double.MaxValue );
             HitInfo info = new HitInfo( null, intPoint, ray );
             double dist = double.MaxValue;
-            foreach( IGeometry geom in m_Scene.Geoms ) {
+            foreach( Geometry geom in m_Scene.Geoms ) {
                 if( geom != originator && geom.Intersects( ray, ref intPoint ) ) {
                     double distToObj = ray.Source.DistanceTo( intPoint );
                     if( distToObj < dist ) {
@@ -297,11 +297,11 @@ namespace RayTracer {
     }
 
     internal class HitInfo {
-        public IGeometry hitObj;
+        public Geometry hitObj;
         public Vector3 hitPoint;
         public Ray ray;
 
-        public HitInfo( IGeometry hitObj, Vector3 hitPoint, Ray ray ) {
+        public HitInfo( Geometry hitObj, Vector3 hitPoint, Ray ray ) {
             this.hitObj = hitObj;
             this.hitPoint = hitPoint;
             this.ray = ray;

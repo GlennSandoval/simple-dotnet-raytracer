@@ -4,7 +4,7 @@ namespace RayTracer {
 
     public class Scene {
         private Camera m_Camera;
-        private List<IGeometry> m_Geoms = new List<IGeometry>();
+        private List<Geometry> m_Geoms = new List<Geometry>();
         private List<Light> m_Lights = new List<Light>();        
 
         public Camera Camera {
@@ -16,7 +16,7 @@ namespace RayTracer {
             }
         }
 
-        public List<IGeometry> Geoms {
+        public List<Geometry> Geoms {
             get {
                 return m_Geoms;
             }
