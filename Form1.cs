@@ -97,7 +97,10 @@ namespace RayTracer {
             sc.Lights.Add( ltRed );
             sc.Lights.Add( ltWhite );
 
-            rt.Scene = sc;
+            sc.Serialize();
+
+            rt.Scene = Scene.Load("Scene.json");
+            //rt.Scene = sc;
             rt.BackColor = Color.Black;
 
             rt.Raytrace( pictureBox1.Image, () => {

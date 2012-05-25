@@ -1,14 +1,7 @@
 *.suo
 /CodeAnalyst/*
 /obj/*
-/bin/Debug/RayTracer.vshost.exe
-/bin/Debug/RayTracer.vshost.exe.manifest
-/bin/Debug/RayTracer.exe
-/bin/Debug/RayTracer.pdb
-/bin/Release/RayTracer.exe
-/bin/Release/RayTracer.pdb
-/bin/Release/RayTracer.vshost.exe
-/bin/Release/RayTracer.vshost.exe.manifest
+/bin/*
 /obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 /obj/x86/Debug/GenerateResource-ResGen.read.1.tlog
 /obj/x86/Debug/GenerateResource-ResGen.write.1.tlog

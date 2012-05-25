@@ -7,7 +7,7 @@ namespace RayTracer {
     }
 
     public class SolidColor : IMaterial {
-        int r, g, b;
+        public int r, g, b;
         public double Phong = 0;
 
         public static SolidColor Default = new SolidColor( 255, 255, 255 );
