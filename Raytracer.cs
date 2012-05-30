@@ -7,7 +7,6 @@ namespace RayTracer {
 
     internal class Raytracer {
         private Color m_BackColor;
-        private Action m_UpdateCallback;
         private object m_CallbackLock = new object();
         private Graphics m_Graphic;
         private int m_ProcessorCount;
@@ -15,6 +14,7 @@ namespace RayTracer {
         private Scene m_Scene;
         private Size m_Size;
         private bool m_Stop = false;
+        private Action m_UpdateCallback;
 
         public Raytracer() {
             m_ProcessorCount = Environment.ProcessorCount;
@@ -26,6 +26,15 @@ namespace RayTracer {
             }
             set {
                 m_BackColor = value;
+            }
+        }
+
+        public int RayDepth {
+            get {
+                return m_RayDepth;
+            }
+            set {
+                m_RayDepth = value;
             }
         }
 
@@ -78,29 +87,6 @@ namespace RayTracer {
             new Thread( () => {
                 Raytrace( onFinished );
             } ).Start();
-        }
-
-        private void Raytrace( Action onFinished ) {
-            double segmentsize = Math.Ceiling( m_Size.Height / (double)m_ProcessorCount );
-            List<Thread> threads = new List<Thread>();
-            for( int i = 0; i < m_ProcessorCount; i++ ) {
-                int start = 0 + (int)( i * segmentsize );
-                int stop = Math.Min( (int)segmentsize + (int)( i * segmentsize ), m_Size.Height );
-
-                Thread t = new Thread( () => {
-                    RenderRows( start, stop );
-                } );
-                t.Start();
-                threads.Add( t );
-            }
-
-            foreach( Thread t in threads ) {
-                t.Join();
-            }
-
-            if( onFinished != null && !this.m_Stop ) {
-                onFinished.Invoke();
-            }
         }
 
         private ColorAccumulator CalculateLighting( HitInfo info, int count ) {
@@ -223,6 +209,29 @@ namespace RayTracer {
             return false;
         }
 
+        private void Raytrace( Action onFinished ) {
+            double segmentsize = Math.Ceiling( m_Size.Height / (double)m_ProcessorCount );
+            List<Thread> threads = new List<Thread>();
+            for( int i = 0; i < m_ProcessorCount; i++ ) {
+                int start = 0 + (int)( i * segmentsize );
+                int stop = Math.Min( (int)segmentsize + (int)( i * segmentsize ), m_Size.Height );
+
+                Thread t = new Thread( () => {
+                    RenderRows( start, stop );
+                } );
+                t.Start();
+                threads.Add( t );
+            }
+
+            foreach( Thread t in threads ) {
+                t.Join();
+            }
+
+            if( onFinished != null && !this.m_Stop ) {
+                onFinished.Invoke();
+            }
+        }
+
         private void RenderCells( int row ) {
             if( this.m_Stop ) {
                 return;
@@ -317,4 +326,5 @@ namespace RayTracer {
             }
         }
     }
+
 }
