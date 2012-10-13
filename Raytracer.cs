@@ -102,8 +102,7 @@ namespace RayTracer {
                 return;
             }
 
-            Ray ray = GetCameraRay( col, row );
-            HitInfo info = FindHitObject( ray );
+            Ray ray = m_Scene.Camera.GetCameraRay( col, row );
 
             ColorAccumulator ca = CastRay( ray, 1 );
 
@@ -153,12 +152,6 @@ namespace RayTracer {
                 }
             }
             return info;
-        }
-
-        private Ray GetCameraRay( int x, int y ) {
-            Vector3 lookAt = new Vector3( x, y, 0 ) - m_Scene.Camera.Location;
-            lookAt.Normalize();
-            return new Ray( m_Scene.Camera.Location, lookAt );
         }
 
         private void GetColor( HitInfo info, Light lt, ColorAccumulator ca, int count ) {
@@ -288,20 +281,14 @@ namespace RayTracer {
         }
 
         public void Clamp() {
-            accumR = Clamp( accumR );
-            accumG = Clamp( accumG );
-            accumB = Clamp( accumB );
-        }
+            double ratio = 1;
+            ratio = Math.Max( accumR / 255.0, ratio );
+            ratio = Math.Max( accumG / 255.0, ratio );
+            ratio = Math.Max( accumB / 255.0, ratio );
 
-        private static int Clamp( int num ) {
-            int clamped = num;
-            if( clamped > 255 ) {
-                clamped = 255;
-            }
-            if( clamped < 0 ) {
-                clamped = 0;
-            }
-            return clamped;
+            accumR = (int)(accumR / ratio);
+            accumG = (int)(accumG / ratio);
+            accumB = (int)(accumB / ratio);
         }
     }
 
