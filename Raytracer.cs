@@ -15,9 +15,28 @@ namespace RayTracer {
 		private Size m_Size;
 		private bool m_Stop = false;
 		private Action m_UpdateCallback;
+		private volatile int current = 0;
+
+		public delegate void ProgressHandler( double percent );
+		public event ProgressHandler OnProgress;
 
 		public Raytracer() {
-			m_ProcessorCount = Environment.ProcessorCount;
+			m_ProcessorCount = Math.Max( Environment.ProcessorCount - 1, 1 );
+		}
+
+		private void DoProgress( double percent ) {
+			if( OnProgress != null ) {
+				OnProgress( percent );
+			}
+		}
+
+
+		private void ReportProgress() {
+			if( current == 0 ) {
+				DoProgress( 0 );
+			} else {
+				DoProgress( (double)current / (double)( m_Size.Width * m_Size.Height ) );
+			}
 		}
 
 		public Color BackColor {
@@ -203,6 +222,7 @@ namespace RayTracer {
 		}
 
 		private void Raytrace( Action onFinished ) {
+			current = 0;
 			double segmentsize = Math.Ceiling( m_Size.Height / (double)m_ProcessorCount );
 			List<Thread> threads = new List<Thread>();
 			for( int i = 0; i < m_ProcessorCount; i++ ) {
@@ -225,12 +245,13 @@ namespace RayTracer {
 			}
 		}
 
-		private void RenderCells( int row ) {
+		private void RenderRow( int row ) {
 			if( this.m_Stop ) {
 				return;
 			}
 			for( int i = 0; i < m_Size.Width; i++ ) {
 				CastCameraRay( i, row );
+				current++;
 			}
 
 			if( m_UpdateCallback != null ) {
@@ -248,7 +269,8 @@ namespace RayTracer {
 
 		private void RenderRows( int start, int stop ) {
 			for( int j = start; j < stop; j++ ) {
-				RenderCells( j );
+				RenderRow( j );
+				ReportProgress();
 			}
 		}
 	}
