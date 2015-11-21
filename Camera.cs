@@ -1,20 +1,24 @@
-﻿namespace RayTracer
+﻿
+
+using System.Windows.Media.Media3D;
+
+namespace RayTracer
 {
 
     public class Camera
     {
 
-        public Vector3 Location
+        public Vector3D Location
         {
             get; set;
         }
 
-        public Vector3 LookAt
+        public Vector3D LookAt
         {
             get; set;
         }
 
-        private Vector3 zaxis;
+        private Vector3D zaxis;
 
         private void Init()
         {
@@ -23,7 +27,7 @@
 
         public Ray GetCameraRay(int x, int y)
         {
-            Vector3 lookAt = new Vector3(x - Location.x, -(y - Location.y), 1 - Location.z);
+            Vector3D lookAt = new Vector3D(x - Location.X, -(y - Location.Y), 1 - Location.Z);
             return new Ray(Location, lookAt);
         }
     }

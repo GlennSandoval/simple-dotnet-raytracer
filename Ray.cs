@@ -1,22 +1,24 @@
-﻿namespace RayTracer
+﻿using System.Windows.Media.Media3D;
+
+namespace RayTracer
 {
 
     public class Ray
     {
 
-        public Ray(Vector3 e, Vector3 d)
+        public Ray(Vector3D e, Vector3D d)
         {
             Source = e;
             d.Normalize();
             Direction = d;
         }
 
-        public Vector3 Direction
+        public Vector3D Direction
         {
             get; set;
         }
 
-        public Vector3 Source
+        public Vector3D Source
         {
             get; set;
         }

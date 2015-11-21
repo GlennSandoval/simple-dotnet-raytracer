@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Windows.Media.Media3D;
 
 namespace RayTracer
 {
@@ -19,7 +20,7 @@ namespace RayTracer
             }
         }
 
-        public Vector3 Location
+        public Vector3D Location
         {
             get; set;
         }

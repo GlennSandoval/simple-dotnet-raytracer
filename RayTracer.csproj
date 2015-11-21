@@ -42,6 +42,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>json.net\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -61,6 +62,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Geometry\Geometry.cs" />
+    <Compile Include="Geometry\Vector3.cs" />
     <Compile Include="IMaterial.cs" />
     <Compile Include="Light.cs" />
     <Compile Include="Geometry\Plane.cs" />
@@ -70,7 +72,6 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Geometry\Sphere.cs" />
     <Compile Include="Geometry\Triangle.cs" />
-    <Compile Include="Vector3.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

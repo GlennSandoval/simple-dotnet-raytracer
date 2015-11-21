@@ -1,113 +1,70 @@
 {
-	"Camera" : {
-		"m_Location" : {
-			"x" : 380.0,
-			"y" : 250.0,
-			"z" : -2500.0
-		},
-		"m_LookAt" : {
-			"x" : 0.0,
-			"y" : 0.0,
-			"z" : 0.0
-		},
-		"Location" : {
-			"x" : 380.0,
-			"y" : 250.0,
-			"z" : -2500.0
-		},
-		"LookAt" : {
-			"x" : 0.0,
-			"y" : 0.0,
-			"z" : 0.0
-		}
-	},
-	"Geoms" : [{
-			"$type" : "RayTracer.Sphere, RayTracer",
-			"Center" : {
-				"x" : 710.0,
-				"y" : 20.0,
-				"z" : 2000.0
-			},
-			"Radius" : 200.0,
-			"Material" : {
-				"$type" : "RayTracer.SolidColor, RayTracer",
-				"r" : 255,
-				"g" : 0,
-				"b" : 0,
-				"Phong" : 0.5
-			}
-		}, {
-			"$type" : "RayTracer.Sphere, RayTracer",
-			"Center" : {
-				"x" : 50.0,
-				"y" : 480.0,
-				"z" : 2000.0
-			},
-			"Radius" : 200.0,
-			"Material" : {
-				"$type" : "RayTracer.SolidColor, RayTracer",
-				"r" : 0,
-				"g" : 0,
-				"b" : 255,
-				"Phong" : 0.5
-			}
-		}, {
-			"$type" : "RayTracer.Sphere, RayTracer",
-			"Center" : {
-				"x" : 380.0,
-				"y" : 250.0,
-				"z" : 2000.0
-			},
-			"Radius" : 200.0,
-			"Material" : {
-				"$type" : "RayTracer.SolidColor, RayTracer",
-				"r" : 255,
-				"g" : 255,
-				"b" : 255,
-				"Phong" : 0.25
-			}
-		}, {
-			"$type" : "RayTracer.Plane, RayTracer",
-			"Normal" : {
-				"x" : 0.0,
-				"y" : 0.0,
-				"z" : -1.0
-			},
-			"Point" : {
-				"x" : 0.0,
-				"y" : -500.0,
-				"z" : 6000.0
-			},
-			"Material" : {
-				"$type" : "RayTracer.SolidColor, RayTracer",
-				"r" : 64,
-				"g" : 64,
-				"b" : 64,
-				"Phong" : 0.0
-			}
-		}
-	],
-	"Lights" : [{
-			"Color" : "Blue",
-			"Location" : {
-				"x" : 830.0,
-				"y" : -50.0,
-				"z" : -500.0
-			}
-		}, {
-			"Color" : "Green",
-			"Location" : {
-				"x" : -70.0,
-				"y" : -50.0,
-				"z" : -500.0
-			}
-		}, {
-			"Color" : "Red",
-			"Location" : {
-				"x" : 380.0,
-				"y" : 1029.4228634059946,
-				"z" : -500.0
-			}
-		}
-	]
+  "Camera": {
+    "Location": "380,250,-2500",
+    "LookAt": "0,0,0"
+  },
+  "Geoms": [
+    {
+      "$type": "RayTracer.Sphere, RayTracer",
+      "Center": "710,20,2000",
+      "Radius": 200.0,
+      "Material": {
+        "$type": "RayTracer.SolidColor, RayTracer",
+        "r": 255,
+        "g": 0,
+        "b": 0,
+        "Phong": 0.5
+      }
+    },
+    {
+      "$type": "RayTracer.Sphere, RayTracer",
+      "Center": "50,480,2000",
+      "Radius": 200.0,
+      "Material": {
+        "$type": "RayTracer.SolidColor, RayTracer",
+        "r": 0,
+        "g": 0,
+        "b": 255,
+        "Phong": 0.5
+      }
+    },
+    {
+      "$type": "RayTracer.Sphere, RayTracer",
+      "Center": "380,250,2000",
+      "Radius": 200.0,
+      "Material": {
+        "$type": "RayTracer.SolidColor, RayTracer",
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "Phong": 0.25
+      }
+    },
+    {
+      "$type": "RayTracer.Plane, RayTracer",
+      "Normal": "0,0,-1",
+      "Point": "0,-500,6000",
+      "Material": {
+        "$type": "RayTracer.SolidColor, RayTracer",
+        "r": 64,
+        "g": 64,
+        "b": 64,
+        "Phong": 0.0
+      }
+    }
+  ],
+  "Lights": [
+    {
+      "Color": "Blue",
+      "Location": "830,-50,-500"
+    },
+    {
+      "Color": "Green",
+      "Location": "-70,-50,-500"
+    },
+    {
+      "Color": "Red",
+      "Location": "380,1029.42286340599,-500"
+    }
+  ]
 }

@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
+using System.Windows.Media.Media3D;
 
 namespace RayTracer {
 
     public interface IMaterial {
-        void GetColor( Vector3 point, ref int r, ref int g, ref int b );
+        void GetColor(Vector3D point, ref int r, ref int g, ref int b );
     }
 
     public class SolidColor : IMaterial {
@@ -20,7 +21,7 @@ namespace RayTracer {
 
         #region IMaterial Members
 
-        public void GetColor( Vector3 point, ref int r, ref int g, ref int b ) {
+        public void GetColor(Vector3D point, ref int r, ref int g, ref int b ) {
             r = this.r;
             g = this.g;
             b = this.b;
