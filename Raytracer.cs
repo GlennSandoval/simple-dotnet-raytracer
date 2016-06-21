@@ -9,13 +9,9 @@ namespace RayTracer
 
     internal class Raytracer
     {
-        private Color m_BackColor;
         private object m_CallbackLock = new object();
         private Graphics m_Graphic;
         private int m_ProcessorCount;
-        private int m_RayDepth = 3;
-        private Scene m_Scene;
-        private Size m_Size;
         private bool m_Stop = false;
         private Action m_UpdateCallback;
         private volatile int current = 0;
@@ -26,6 +22,9 @@ namespace RayTracer
         public Raytracer()
         {
             m_ProcessorCount = Math.Max(Environment.ProcessorCount - 1, 1);
+
+            //Initialization
+            RayDepth = 3;
         }
 
         private void DoProgress(double percent)
@@ -45,68 +44,38 @@ namespace RayTracer
             }
             else
             {
-                DoProgress((double)current / (double)(m_Size.Width * m_Size.Height));
+                DoProgress((double)current / (double)(Size.Width * Size.Height));
             }
         }
 
         public Color BackColor
         {
-            get
-            {
-                return m_BackColor;
-            }
-            set
-            {
-                m_BackColor = value;
-            }
+            get;
+            set;
         }
 
         public int RayDepth
         {
-            get
-            {
-                return m_RayDepth;
-            }
-            set
-            {
-                m_RayDepth = value;
-            }
+            get;
+            set;
         }
 
         public Scene Scene
         {
-            get
-            {
-                return m_Scene;
-            }
-            set
-            {
-                m_Scene = value;
-            }
+            get;
+            set;
         }
 
         public Size Size
         {
-            get
-            {
-                return m_Size;
-            }
-            set
-            {
-                m_Size = value;
-            }
+            get;
+            set;
         }
 
         public bool Stop
         {
-            get
-            {
-                return m_Stop;
-            }
-            set
-            {
-                m_Stop = value;
-            }
+            get;
+            set;
         }
 
         /// <summary>
@@ -126,7 +95,7 @@ namespace RayTracer
         /// <param name="onFinished">Called when rendering is complete.</param>
         public void Raytrace(Image image, Action onUpdate, Action onFinished)
         {
-            m_Size = new Size(image.Width, image.Height);
+            Size = new Size(image.Width, image.Height);
             m_UpdateCallback = onUpdate;
             m_Graphic = Graphics.FromImage(image);
 
@@ -139,7 +108,7 @@ namespace RayTracer
         private ColorAccumulator CalculateLighting(HitInfo info, int count)
         {
             ColorAccumulator ca = new ColorAccumulator();
-            foreach (Light lt in m_Scene.Lights)
+            foreach (Light lt in Scene.Lights)
             {
                 GetColor(info, lt, ca, count);
             }
@@ -153,7 +122,7 @@ namespace RayTracer
                 return;
             }
 
-            Ray ray = m_Scene.Camera.GetCameraRay(col, row);
+            Ray ray = Scene.Camera.GetCameraRay(col, row);
 
             ColorAccumulator ca = CastRay(ray, 1);
 
@@ -166,7 +135,7 @@ namespace RayTracer
 
         private ColorAccumulator CastRay(Ray ray, int count)
         {
-            if (count > m_RayDepth)
+            if (count > RayDepth)
             {
                 return null;
             }
@@ -181,7 +150,7 @@ namespace RayTracer
             }
             else
             {
-                ca = new ColorAccumulator(m_BackColor.R, m_BackColor.G, m_BackColor.B);
+                ca = new ColorAccumulator(BackColor.R, BackColor.G, BackColor.B);
             }
 
             return ca;
@@ -197,7 +166,7 @@ namespace RayTracer
             Vector3D intPoint = new Vector3D(double.MaxValue, double.MaxValue, double.MaxValue);
             HitInfo info = new HitInfo(null, intPoint, ray);
             double dist = double.MaxValue;
-            foreach (Geometry geom in m_Scene.Geoms)
+            foreach (Geometry geom in Scene.Geoms)
             {
                 if (geom != originator && geom.Intersects(ray, ref intPoint))
                 {
@@ -275,12 +244,12 @@ namespace RayTracer
         private void Raytrace(Action onFinished)
         {
             current = 0;
-            double segmentsize = Math.Ceiling(m_Size.Height / (double)m_ProcessorCount);
+            double segmentsize = Math.Ceiling(Size.Height / (double)m_ProcessorCount);
             List<Thread> threads = new List<Thread>();
             for (int i = 0; i < m_ProcessorCount; i++)
             {
                 int start = 0 + (int)(i * segmentsize);
-                int stop = Math.Min((int)segmentsize + (int)(i * segmentsize), m_Size.Height);
+                int stop = Math.Min((int)segmentsize + (int)(i * segmentsize), Size.Height);
 
                 Thread t = new Thread(() =>
                 {
@@ -307,7 +276,7 @@ namespace RayTracer
             {
                 return;
             }
-            for (int i = 0; i < m_Size.Width; i++)
+            for (int i = 0; i < Size.Width; i++)
             {
                 CastCameraRay(i, row);
                 current++;
