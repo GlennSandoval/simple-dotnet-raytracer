@@ -22,19 +22,12 @@ namespace RayTracer
         public Raytracer()
         {
             m_ProcessorCount = Math.Max(Environment.ProcessorCount - 1, 1);
-
-            //Initialization
-            RayDepth = 3;
         }
 
         private void DoProgress(double percent)
         {
-            if (OnProgress != null)
-            {
-                OnProgress(percent);
-            }
+            OnProgress?.Invoke(percent);
         }
-
 
         private void ReportProgress()
         {
@@ -48,35 +41,15 @@ namespace RayTracer
             }
         }
 
-        public Color BackColor
-        {
-            get;
-            set;
-        }
+        public Color BackColor { get; set; }
 
-        public int RayDepth
-        {
-            get;
-            set;
-        }
+        public int RayDepth { get; set; } = 3;
 
-        public Scene Scene
-        {
-            get;
-            set;
-        }
+        public Scene Scene { get; set; }
 
-        public Size Size
-        {
-            get;
-            set;
-        }
+        public Size Size { get; set; }
 
-        public bool Stop
-        {
-            get;
-            set;
-        }
+        public bool Stop { get; set; }
 
         /// <summary>
         /// Raytrace the scene onto the given image.
