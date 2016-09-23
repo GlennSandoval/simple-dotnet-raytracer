@@ -11,7 +11,7 @@ namespace RayTracer {
         /// <summary>
         /// The material that determines the color of the object.
         /// </summary>
-        public virtual IMaterial Material {
+        public IMaterial Material {
             get {
                 return m_Material;
             }

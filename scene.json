@@ -41,6 +41,18 @@
       }
     },
     {
+      "$type": "RayTracer.Sphere, RayTracer",
+      "Center": "180,240,1700",
+      "Radius": 100.0,
+      "Material": {
+        "$type": "RayTracer.SolidColor, RayTracer",
+        "r": 255,
+        "g": 128,
+        "b": 128,
+        "Phong": 0.25
+      }
+    },
+    {
       "$type": "RayTracer.Plane, RayTracer",
       "Normal": "0,0,-1",
       "Point": "0,-500,6000",

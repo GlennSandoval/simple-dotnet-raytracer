@@ -34,8 +34,7 @@ namespace RayTracer
         /// <returns>The scene to be rendered</returns>
         public static Scene Load(string filePath)
         {
-            using (StreamReader sr = new StreamReader(filePath))
-            using (JsonReader reader = new JsonTextReader(sr))
+            using (JsonReader reader = new JsonTextReader(new StreamReader(filePath)))
             {
                 JsonSerializer ser = new JsonSerializer();
                 ser.NullValueHandling = NullValueHandling.Ignore;
@@ -51,8 +50,7 @@ namespace RayTracer
         /// </summary>
         public void Serialize()
         {
-            using (StreamWriter sw = new StreamWriter("scene.json"))
-            using (JsonWriter writer = new JsonTextWriter(sw))
+            using (JsonWriter writer = new JsonTextWriter(new StreamWriter("scene.json")))
             {
                 JsonSerializer ser = new JsonSerializer();
                 ser.NullValueHandling = NullValueHandling.Ignore;

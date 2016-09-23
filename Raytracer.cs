@@ -11,6 +11,7 @@ namespace RayTracer
     {
         private object m_CallbackLock = new object();
         private Graphics m_Graphic;
+        private Object m_GraphicsLock = new object();
         private int m_ProcessorCount;
         private bool m_Stop = false;
         private Action m_UpdateCallback;
@@ -100,7 +101,7 @@ namespace RayTracer
             ColorAccumulator ca = CastRay(ray, 1);
 
             SolidBrush brush = new SolidBrush(Color.FromArgb(ca.accumR, ca.accumG, ca.accumB));
-            lock (m_Graphic)
+            lock (m_GraphicsLock)
             {
                 m_Graphic.FillRectangle(brush, col, row, 1, 1);
             }
@@ -129,10 +130,7 @@ namespace RayTracer
             return ca;
         }
 
-        private HitInfo FindHitObject(Ray ray)
-        {
-            return FindHitObject(ray, null, HitMode.Closest);
-        }
+        private HitInfo FindHitObject(Ray ray) => FindHitObject(ray, null, HitMode.Closest);
 
         private HitInfo FindHitObject(Ray ray, Geometry originator, HitMode mode)
         {

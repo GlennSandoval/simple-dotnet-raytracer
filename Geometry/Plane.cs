@@ -53,10 +53,7 @@ namespace RayTracer
             }
         }
 
-        override public Vector3D GetSurfaceNormalAtPoint(Vector3D point)
-        {
-            return m_Normal;
-        }
+        override public Vector3D GetSurfaceNormalAtPoint(Vector3D point) => m_Normal;
 
         override public bool Intersects(Ray ray, ref Vector3D intPoint)
         {
