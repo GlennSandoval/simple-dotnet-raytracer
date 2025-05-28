@@ -1,0 +1,40 @@
+<Window
+    x:Class="raytracer.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:raytracer.ViewModels"
+    Title="raytracer"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:MainWindowViewModel"
+    Icon="/Assets/avalonia-logo.ico"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Image
+                Name="MainImage"
+                Width="{Binding Width}"
+                Height="{Binding Height}"
+                Margin="10"
+                Source="{Binding MainImage}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Button>Start</Button>
+        </StackPanel>
+    </Grid>
+
+</Window>
