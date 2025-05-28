@@ -1,0 +1,82 @@
+{
+	"Camera": {
+		"Location": { "X": "380", "Y": "250", "Z": "-2500" },
+		"LookAt": { "X": "0", "Y": "0", "Z": "0" }
+	},
+	"Geoms": [
+		{
+			"$type": "raytracer.geometry.Sphere, raytracer",
+			"Center": { "X": "710", "Y": "20", "Z": "2000" },
+			"Radius": 200.0,
+			"Material": {
+				"$type": "raytracer.SolidColor, raytracer",
+				"r": 255,
+				"g": 0,
+				"b": 0,
+				"Phong": 0.5
+			}
+		},
+		{
+			"$type": "raytracer.geometry.Sphere, raytracer",
+			"Center": { "X": "50", "Y": "480", "Z": "2000" },
+			"Radius": 200.0,
+			"Material": {
+				"$type": "raytracer.SolidColor, raytracer",
+				"r": 0,
+				"g": 0,
+				"b": 255,
+				"Phong": 0.5
+			}
+		},
+		{
+			"$type": "raytracer.geometry.Sphere, raytracer",
+			"Center": { "X": "380", "Y": "250", "Z": "2000" },
+			"Radius": 200.0,
+			"Material": {
+				"$type": "raytracer.SolidColor, raytracer",
+				"r": 255,
+				"g": 255,
+				"b": 255,
+				"Phong": 0.25
+			}
+		},
+		{
+			"$type": "raytracer.geometry.Sphere, raytracer",
+			"Center": { "X": "180", "Y": "240", "Z": "1700" },
+			"Radius": 100.0,
+			"Material": {
+				"$type": "raytracer.SolidColor, raytracer",
+				"r": 255,
+				"g": 128,
+				"b": 128,
+				"Phong": 0.25
+			}
+		},
+		{
+			"$type": "raytracer.geometry.Plane, raytracer",
+			"Normal": { "X": "0", "Y": "0", "Z": "-1" },
+			"Point": { "X": "0", "Y": "-500", "Z": "6000" },
+			"Material": {
+				"$type": "raytracer.SolidColor, raytracer",
+				"r": 64,
+				"g": 64,
+				"b": 64,
+				"Phong": 0.0
+			}
+		}
+	],
+	"Lights": [
+		{
+			"Color": { "A": 255, "R": 0, "G": 0, "B": 255 },
+			"Location": { "X": "830", "Y": "-50", "Z": "-500" }
+		},
+		{
+			"Color": { "A": 255, "R": 0, "G": 255, "B": 0 },
+			"Location": { "X": "-70", "Y": "-50", "Z": "-500" }
+		},
+		{
+			"Color": { "A": 255, "R": 255, "G": 0, "B": 0 },
+			"Location": { "X": "380", "Y": "1029", "Z": "-500" }
+		}
+	]
+}
